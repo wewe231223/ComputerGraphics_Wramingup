@@ -23,6 +23,8 @@
 #include <algorithm>
 
 #include "MatrixClass.h"
+
+#pragma warning(disable:4267)
 using namespace std;
 
 /*
@@ -85,6 +87,7 @@ class Text {
 private:
 	ifstream*	fin			= nullptr;
 	string*		str			= nullptr;
+	int		WordPerLine[10] = { 0, };
 	vector<string> words;
 
 	int NumberofWord = 0;
@@ -108,10 +111,26 @@ public:
 
 
 		string temp;
+		int ind = 0;
+		int b = 0;
 
 		for (auto i = 0; i < 10; ++i) {
 			getline(*this->fin, this->str[i]);
 			
+			while (this->str[i][ind] != NULL) {
+				
+				if (this->str[i][ind] == ' ') {
+					b += 1;
+				}
+
+				ind += 1;
+
+			}
+
+			
+			this->WordPerLine[i] = b + 1;
+			b = 0;
+			ind = 0;
 		}
 
 		this->fin->clear();
@@ -128,13 +147,55 @@ public:
 		}
 	}
 
+
+
+	void reasignUnits() {
+		this->fin->clear();
+		this->fin->seekg(0, ios::beg);
+
+
+		string temp;
+
+		vector<string>().swap(this->words);
+
+		for (auto line = 0; line < 10; ++line) {
+			
+			for (auto it = 0; it < this->str[line].length(); ++it) {
+
+				if (this->str[line][it] == ' ' ) {
+					this->words.push_back(temp);
+					temp.clear();
+					continue;
+				}
+
+				
+				if (&this->str[line][it] == &this->str[line].back()) {
+					temp.push_back(this->str[line][it]);
+					this->words.push_back(temp);
+					temp.clear();
+					break;
+				}
+
+				temp.push_back(this->str[line][it]);
+
+
+
+			}
+		}
+		
+
+
+
+
+	}
+
 	string* getString() { return this->str; }
 
 
 	void print() {
 
 		for (auto line = 0; line < 10; ++line) {
-			cout << this->str[line] << endl;
+			cout << this->str[line] <</* "           WordPerLine = " << this->WordPerLine[line] <<*/ endl;
 
 		}
 		cout << endl;
@@ -210,32 +271,101 @@ public:
 	void Ins() {
 
 		int size = 0;
+		int counter = 0;
+
 		for (auto line = 0; line < 10; ++line) {
-			size = static_cast<int>(this->str[line].length());
+			counter = 0;
+			for (auto it = 0; it < this->str[line].length(); ++it) {
 
-			for (auto it = 0; it < size; ++it) {
-
-				if (it % 4 == 3) {
+				if (counter == 3) {
 					this->str[line].insert(it, "@@");
+					it += 1;
+					counter = 0;
 				}
-
-
+				else {
+					counter += 1;
+				}
 
 			}
 		}
 
+
+		this->reasignUnits();
 		return this->print();
 
 	}
 
+	
+
+	void rev_FromBlank() {
+		
+		string* NewString = new string[10];
+
+		int i = 0;
+		int ind = 0;
+
+		vector<string>::iterator iter;
+		for (iter = this->words.begin(); iter != this->words.end(); ++iter) {
+
+			
+
+			
+			reverse((*iter).begin(), (*iter).end());
+			NewString[i].append(*iter);
+			NewString[i].append(" ");
+			ind += 1;
+
+
+			if (ind == this->WordPerLine[i]) {
+				i += 1;
+				ind = 0;
+			}
 
 
 
 
 
+		}
 
 
 
+		this->str = NewString;
+
+
+
+		return this->print();
+
+
+	}
+
+
+	void er() {
+
+		for (auto line = 0; line < 10; ++line) {
+			this->str[line].erase(remove(this->str[line].begin(), this->str[line].end(), '@'), this->str[line].end());
+		}
+
+		this->reasignUnits();
+		return this->print();
+
+	}
+	
+
+	void rep(char t, char s) {
+
+		for (auto line = 0; line < 10; ++line) {
+			for (auto iter = 0; iter < this->str[line].length(); ++iter) {
+
+				if (this->str[line][iter] == t) {
+					this->str[line][iter] = s;
+				}
+			}
+		}
+
+		this->reasignUnits();
+		return this->print();
+
+	}
 
 
 
@@ -276,12 +406,21 @@ int main()
 
 
 
-	T->rev();
-	T->rev();
+	//T->rev();
+	//T->rev();
 
 	T->Ins();
+	T->printUnits();
+	cout << endl;
 
-	
+	T->rev_FromBlank();
+	T->rev_FromBlank();
+
+	T->er();
+
+	T->rep('i', 'K');
+
+
 	return 1;
 	//TestProblem_1();
 
