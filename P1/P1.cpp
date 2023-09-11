@@ -13,6 +13,74 @@
 #pragma warning(disable:4267)
 using namespace std;
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 void (*run)();
 
 
@@ -33,48 +101,6 @@ int main()
 
 
 
-
-
-
-
-
-
-
-
-	//TP->print();
-	//
-	//TP->count();
-	//TP->print();
-
-	//TP->Reverse_By_Line();
-	//TP->print();
-
-	//TP->Reverse_By_Word();
-	//TP->print();
-
-	//TP->Reverse_By_Word();
-	//TP->Reverse_By_Line();
-
-	//TP->InsertChracters("@@", 3);
-	//TP->print();
-
-
-	//TP->EraseCharacters('@');
-	//TP->print();
-
-	//TP->ReplaceCharacters("i", "K");
-	//TP->print();
-
-	//TP->ReplaceCharacters("K", "i");
-	//TP->print();
-
-
-	//
-	//TP->FoldLines();
-	//
-
-
-	//TP->print();
 
 }
 
