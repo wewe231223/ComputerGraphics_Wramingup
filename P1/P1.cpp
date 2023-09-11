@@ -9,76 +9,10 @@
 
 #include "MatrixClass.h"
 #include "Text.h"
+#include "PointList.h"
 
 #pragma warning(disable:4267)
 using namespace std;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 void (*run)();

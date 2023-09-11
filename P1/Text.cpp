@@ -333,7 +333,7 @@ void TextProcessor::Decrease(int Amount) {
 
 				buffer = Clamp(buffer, 0);
 
-
+				
 				word = to_string(buffer);
 
 			}
