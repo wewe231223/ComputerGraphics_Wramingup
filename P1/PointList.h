@@ -7,14 +7,18 @@ using namespace std;
 
 
 #define NULLCORD 0xfff
-#define LISTMAX 9
+#define LISTMAX 10
 
 enum Mode {
 	Front,
 	Back
 };
 
+enum Arrange {
+	Ascending,
+	Decending
 
+};
 
 namespace Point {
 
@@ -57,9 +61,42 @@ namespace Point {
 }
 
 namespace Cp {
-	bool compare(){
+
+	inline int compare_Asc(const void* a,const void* b){
 		
+		int result = 0;
+
+
+		Point::point* pointA = (Point::point*)a;
+		Point::point* pointB = (Point::point*)b;
+
+
+
+		Point::Distance(*pointA) < Point::Distance(*pointB) ? result = -1 : result = 1;
+
+		return result;
+
 	}
+
+	inline int compare_Dec(const void* a, const void* b) {
+
+		int result = 0;
+
+
+		Point::point* pointA = (Point::point*)a;
+		Point::point* pointB = (Point::point*)b;
+
+
+
+		Point::Distance(*pointA) < Point::Distance(*pointB) ? result = 1 : result = -1;
+
+		return result;
+
+	}
+
+
+
+
 }
 
 
@@ -68,13 +105,20 @@ namespace List {
 	class PointList {
 	private:
 		Point::point* list;
-		Point::point* arrangedlist;
+		List::PointList* Arranged;
 		int current = 0;
-		
 	public:
+		bool isSorted = false;
+
+
+
+
+	public:
+
+
 		PointList() {
 			this->list = new Point::point[10];
-			this->arrangedlist = new Point::point[10];
+			this->Arranged = nullptr;
 			for (auto i = 0; i < 10; ++i) {
 				Point::point p;
 				this->list[i] = p;
@@ -97,15 +141,28 @@ namespace List {
 		void print() {
 			cout << "< Coordinate >" << endl << endl;
 
-			for (auto i = 0; i < this->current; ++i) {
-				if (this->list[i].x == NULLCORD) {
-					cout << i << " :	" << "NONE" << endl;
-				}
-				else {
-					cout << i << " :	( " << this->list[i].x << " , " << this->list[i].y << " , " << this->list[i].z << " )" << endl;
+
+			if (this->isSorted) {
+				cout << "List is Sorted" << endl;
+				for (auto i = 0; i < this->Arranged->current; ++i) {
+					cout << i << " :	( " << this->Arranged->list[i].x << " , " << this->Arranged->list[i].y << " , " << this->Arranged->list[i].z << " )" << endl;
 				}
 			}
+			else {
+				cout << "List is not Sorted" << endl;
+				for (auto i = 0; i < this->current; ++i) {
+					if (this->list[i].x == NULLCORD) {
+						cout << i << " :	" << "NONE" << endl;
+					}
+					else {
+						cout << i << " :	( " << this->list[i].x << " , " << this->list[i].y << " , " << this->list[i].z << " )" << endl;
+					}
+				}
 
+			}
+
+
+			
 
 
 			cout << endl << endl << endl << endl << endl;
@@ -135,10 +192,11 @@ namespace List {
 				for (auto i = 0; i < current; ++i){
 					newlist[i + 1] = this->list[i];
 				}
+
 				newlist[0] = data;
 				this->current += 1;
 
-				delete[] this->list;
+				//delete[] this->list;
 				this->list = newlist;
 
 				return;
@@ -225,7 +283,34 @@ namespace List {
 		}
 	
 		
+		void ArrangeByDistance(Arrange mode) {
 
+			this->Arranged = new List::PointList(*this);
+
+			if (this->Arranged->list[0].x == NULLCORD && this->Arranged->current != 0) {
+				for (auto i = 1; i < this->Arranged->current; ++i) {
+					this->Arranged->list[i - 1] = this->Arranged->list[i];
+					this->Arranged->current -= 1;
+				}
+			}
+
+
+			if (mode == Ascending) {
+				qsort(this->Arranged->list, this->Arranged->current, sizeof(Point::point), Cp::compare_Asc);
+				
+			}
+
+
+
+			if (mode == Decending) {
+				qsort(this->Arranged->list, this->Arranged->current, sizeof(Point::point), Cp::compare_Dec);
+			}
+
+
+			
+
+	
+		}
 
 
 
