@@ -6,7 +6,7 @@
 using namespace std;
 
 
-#define NULLCORD 0xfff
+#define NULLCORD -0xffff
 #define LISTMAX 10
 
 enum Mode {
@@ -257,6 +257,7 @@ namespace List {
 			double disbuffer = 0.0f;
 			for (auto i = 0; i < this->current; ++i) {
 				disbuffer = 0.0f;
+				if (this->list[i].x == NULLCORD) continue;
 				if ((disbuffer = Point::Distance(this->list[i])) > dis) {
 					dis = disbuffer;
 					result = this->list[i];
@@ -272,6 +273,7 @@ namespace List {
 			double disbuffer = 0.0f;
 			for (auto i = 0; i < this->current; ++i) {
 				disbuffer = 0.0f;
+				if (this->list[i].x == NULLCORD) continue;
 				if ((disbuffer = Point::Distance(this->list[i])) < dis) {
 					dis = disbuffer;
 					result = this->list[i];
@@ -290,8 +292,9 @@ namespace List {
 			if (this->Arranged->list[0].x == NULLCORD && this->Arranged->current != 0) {
 				for (auto i = 1; i < this->Arranged->current; ++i) {
 					this->Arranged->list[i - 1] = this->Arranged->list[i];
-					this->Arranged->current -= 1;
 				}
+
+				this->Arranged->current -= 1;
 			}
 
 
