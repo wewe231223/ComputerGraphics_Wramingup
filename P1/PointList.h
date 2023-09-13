@@ -244,10 +244,17 @@ namespace List {
 
 
 		void clear() {
-			Point::point* newList = new Point::point[10];
+			Point::point* newList_a = new Point::point[10];
+
+			if (this->Arranged != nullptr) {
+				this->Arranged->clear();
+			}
+
 			delete[] this->list;
-			this->list = newList;
+			this->list = newList_a;
+
 			this->current = 0;
+
 		}
 
 
